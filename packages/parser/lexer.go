@@ -55,6 +55,16 @@ func isBool(text string) bool {
 }
 
 func getTokenType(text string) TokenType {
+	staticMap := make(map[string]TokenType)
+	staticMap["+"] = ADD_TOKEN
+	staticMap["-"] = MINUS_TOKEN
+	staticMap["*"] = MULTIPLY_TOKEN
+	staticMap["/"] = DIVIDE_TOKEN
+
+	if tokenMatch, match := staticMap[text]; match {
+		return tokenMatch
+	}
+
 	if isNumber(text) {
 		return NUMBER_TOKEN
 	} else if isString(text) {
