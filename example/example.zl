@@ -1,0 +1,57 @@
+import 'zeenision:http';
+
+using http;
+
+const(string) name = "Phumiphat"
+const(string) lastName = "Jaroenyonwhatthana"
+
+var(int) salary = 110,000; const(boolean) leave1Day = false;
+
+if leave1Day {
+	salary -= 1000
+}
+
+isDynamic "this is a dynamic type"
+isDynamic = true
+
+model class CustomerModel (
+	const(string) id,
+	const(string) name,
+	let(bool) activate
+)
+
+db class ErpDb (
+	type: MySQL,
+	server: "localhost",
+	port: 3306,
+	username: "root",
+	password: "P@$$w0rd"
+) {
+	table class Customer (tableName: "cus") : CustomerModel {
+		func syncData() {
+			await http.post('https://zeenision.co.th/demo/zeenision-api/fetch-customer')
+				.then((res) -> {
+					
+				})
+
+		}
+	}
+
+	table class Users (tableName: "users") {
+		
+	}
+}
+
+async func fetchCustomerData() -> CustomerModel {
+	res = await http.post('https://zeenision.co.th/demo/zeenision-api/fetch-customer')
+	var(CustomerModel) data = CustomerModel(
+		res.id,
+		res.name,
+		res.activate
+	)
+}
+
+observe let(bool) showPopup = false {
+	fetchCustomerData()
+	print(data)
+}
