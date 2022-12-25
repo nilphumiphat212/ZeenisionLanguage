@@ -6,6 +6,5 @@ import (
 )
 
 func main() {
-	// source := "var moneyInMonth         = 110000"
 	fmt.Print(parser.MINUS_TOKEN)
 }

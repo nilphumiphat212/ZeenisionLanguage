@@ -40,6 +40,16 @@ func isString(text string) bool {
 	return string(runes[0]) == "\"" && string(runes[len(runes)-1]) == "\""
 }
 
+//lint:ignore U1000 for use in comming soon
+func isIdentifier(text string) bool {
+	var re *regexp.Regexp = regexp.MustCompile("[a-zA-Z_][a-zA-Z0-9_]")
+	if len(re.FindAllString(text, -1)) > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
 func isBool(text string) bool {
 	return text == "true" || text == "false"
 }
@@ -49,6 +59,8 @@ func getTokenType(text string) TokenType {
 		return NUMBER_TOKEN
 	} else if isString(text) {
 		return STRING_TOKEN
+	} else if isIdentifier(text) {
+		return IDENTIFIER_TOKEN
 	} else if isBool(text) {
 		return BOOL_TOKEN
 	} else {

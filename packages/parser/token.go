@@ -1,7 +1,7 @@
 package parser
 
-type TokenType = int
-type TokenValue = interface{}
+type TokenType int
+type TokenValue interface{}
 
 const (
 	UNKNOWN_TOKEN TokenType = iota
@@ -13,6 +13,7 @@ const (
 	MULTIPLY_TOKEN
 	DIVIDE_TOKEN
 	KEYWORD_TOKEN
+	IDENTIFIER_TOKEN
 )
 
 type Token struct {
