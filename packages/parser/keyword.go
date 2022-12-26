@@ -3,7 +3,8 @@ package parser
 type KeywordType = int
 
 const (
-	GLOBAL_KEYWORD KeywordType = iota
+	UNKNOWN_KEYWORD KeywordType = iota
+	GLOBAL_KEYWORD
 	LET_KEYWORD
 	CONST_KEYWORD
 	IF_KEYWORD

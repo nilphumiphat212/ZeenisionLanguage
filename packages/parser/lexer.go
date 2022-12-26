@@ -40,7 +40,6 @@ func isString(text string) bool {
 	return string(runes[0]) == "\"" && string(runes[len(runes)-1]) == "\""
 }
 
-//lint:ignore U1000 for use in comming soon
 func isIdentifier(text string) bool {
 	var re *regexp.Regexp = regexp.MustCompile("[a-zA-Z_][a-zA-Z0-9_]")
 	if len(re.FindAllString(text, -1)) > 0 {
@@ -54,7 +53,30 @@ func isBool(text string) bool {
 	return text == "true" || text == "false"
 }
 
-func getTokenType(text string) TokenType {
+func isKeyword(text string) (bool, KeywordType) {
+	keywordMap := make(map[string]KeywordType)
+	keywordMap["global"] = GLOBAL_KEYWORD
+	keywordMap["let"] = LET_KEYWORD
+	keywordMap["const"] = CONST_KEYWORD
+	keywordMap["if"] = IF_KEYWORD
+	keywordMap["else"] = ELSE_KEYWORD
+	keywordMap["elseif"] = ELSEIF_KEYWORD
+	keywordMap["switch"] = SWITCH_KEYWORD
+	keywordMap["loop"] = LOOP_KEYWORD
+	keywordMap["continue"] = LOOP_KEYWORD
+	keywordMap["return"] = RETURN_KEYWORD
+	keywordMap["object"] = OBJECT_KEYWORD
+	keywordMap["import"] = IMPORT_KEYWORD
+	keywordMap["func"] = FUNCTION_KEYWORD
+
+	if keywordMatch, match := keywordMap[text]; match {
+		return true, keywordMatch
+	}
+
+	return false, UNKNOWN_KEYWORD
+}
+
+func getTokenType(text string) (TokenType, TokenValue) {
 	staticMap := make(map[string]TokenType)
 	staticMap["+"] = ADD_TOKEN
 	staticMap["-"] = MINUS_TOKEN
@@ -62,19 +84,21 @@ func getTokenType(text string) TokenType {
 	staticMap["/"] = DIVIDE_TOKEN
 
 	if tokenMatch, match := staticMap[text]; match {
-		return tokenMatch
+		return tokenMatch, nil
 	}
 
 	if isNumber(text) {
-		return NUMBER_TOKEN
+		return NUMBER_TOKEN, nil
 	} else if isString(text) {
-		return STRING_TOKEN
+		return STRING_TOKEN, nil
 	} else if isIdentifier(text) {
-		return IDENTIFIER_TOKEN
+		return IDENTIFIER_TOKEN, nil
 	} else if isBool(text) {
-		return BOOL_TOKEN
+		return BOOL_TOKEN, nil
+	} else if isKeyword, keywordType := isKeyword(text); isKeyword {
+		return KEYWORD_TOKEN, keywordType
 	} else {
-		return UNKNOWN_TOKEN
+		return UNKNOWN_TOKEN, nil
 	}
 }
 
@@ -85,7 +109,16 @@ func Lexer(source string) [][]Token {
 		tokens := []Token{}
 		words := getWordFromText(scanner.Text())
 		for _, word := range words {
-			tokens = append(tokens, Token{getTokenType(word), word})
+			var value TokenValue = nil
+			tokenType, tokenValue := getTokenType(word)
+
+			if tokenType == KEYWORD_TOKEN {
+				value = tokenValue
+			} else {
+				value = word
+			}
+
+			tokens = append(tokens, Token{tokenType, value})
 		}
 		tokenList = append(tokenList, tokens)
 	}
