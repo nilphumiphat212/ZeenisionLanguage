@@ -68,6 +68,7 @@ func isKeyword(text string) (bool, KeywordType) {
 	keywordMap["object"] = OBJECT_KEYWORD
 	keywordMap["import"] = IMPORT_KEYWORD
 	keywordMap["func"] = FUNCTION_KEYWORD
+	keywordMap["blueprint"] = BLUEPRINT_KEYWORD
 
 	if keywordMatch, match := keywordMap[text]; match {
 		return true, keywordMatch
@@ -89,14 +90,14 @@ func getTokenType(text string) (TokenType, TokenValue) {
 
 	if isNumber(text) {
 		return NUMBER_TOKEN, nil
+	} else if isKeyword, keywordType := isKeyword(text); isKeyword {
+		return KEYWORD_TOKEN, keywordType
+	} else if isBool(text) {
+		return BOOL_TOKEN, nil
 	} else if isString(text) {
 		return STRING_TOKEN, nil
 	} else if isIdentifier(text) {
 		return IDENTIFIER_TOKEN, nil
-	} else if isBool(text) {
-		return BOOL_TOKEN, nil
-	} else if isKeyword, keywordType := isKeyword(text); isKeyword {
-		return KEYWORD_TOKEN, keywordType
 	} else {
 		return UNKNOWN_TOKEN, nil
 	}
