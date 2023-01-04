@@ -63,12 +63,34 @@ func isKeyword(text string) (bool, KeywordType) {
 	keywordMap["elseif"] = ELSEIF_KEYWORD
 	keywordMap["switch"] = SWITCH_KEYWORD
 	keywordMap["loop"] = LOOP_KEYWORD
-	keywordMap["continue"] = LOOP_KEYWORD
+	keywordMap["break"] = BREAK_KEYWORD
+	keywordMap["continue"] = CONTINUE_KEYWORD
 	keywordMap["return"] = RETURN_KEYWORD
 	keywordMap["object"] = OBJECT_KEYWORD
 	keywordMap["import"] = IMPORT_KEYWORD
 	keywordMap["func"] = FUNCTION_KEYWORD
+	keywordMap["namespace"] = NAMESPACE_KEYWORD
+	keywordMap["using"] = USING_KEYWORD
+	keywordMap["class"] = CLASS_KEYWORD
+	keywordMap["model"] = MODEL_CLASS_KEYWORD
+	keywordMap["db"] = DB_CLASS_KEYWORD
+	keywordMap["table"] = TABLE_CLASS_KEYWORD
+	keywordMap["primary"] = PRIMARY_KEY_KEYWORD
+	keywordMap["foriegn"] = FOREIGN_KEY_KEYWORD
 	keywordMap["blueprint"] = BLUEPRINT_KEYWORD
+	keywordMap["enum"] = ENUM_KEYWORD
+	keywordMap["public"] = PUBLIC_KEYWORD
+	keywordMap["private"] = PRIVATE_KEYWORD
+	keywordMap["protected"] = PROTECTED_KEYWORD
+	keywordMap["abstract"] = ABSTRACT_KEYWORD
+	keywordMap["late"] = LATE_KEYWORD
+	keywordMap["virtual"] = VIRTUAL_KEYWORD
+	keywordMap["internal"] = INTERNAL_KEYWORD
+	keywordMap["ref"] = REF_KEYWORD
+	keywordMap["embed"] = EMBED_KEYWORD
+	keywordMap["extension"] = EXTENSION_KEYWORD
+	keywordMap["observe"] = OBSERVE_KEYWORD
+	keywordMap["ui"] = UI_KEYWORD
 
 	if keywordMatch, match := keywordMap[text]; match {
 		return true, keywordMatch
