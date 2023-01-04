@@ -53,6 +53,16 @@ func isBool(text string) bool {
 	return text == "true" || text == "false"
 }
 
+func hasLeftParentheses(tokenValue TokenValue) bool {
+	runes := []rune(tokenValue.(string))
+	return string(runes[0]) == "("
+}
+
+func hasRightParentheses(tokenValue TokenValue) bool {
+	runes := []rune(tokenValue.(string))
+	return string(runes[len(runes)-1]) == ")"
+}
+
 func isKeyword(text string) (bool, KeywordType) {
 	keywordMap := make(map[string]KeywordType)
 	keywordMap["global"] = GLOBAL_KEYWORD
@@ -141,7 +151,15 @@ func Lexer(source string) [][]Token {
 				value = word
 			}
 
+			if hasLeftParentheses(value) {
+				tokens = append(tokens, Token{LEFT_PARENTHESES_TOKEN, "("})
+			}
+
 			tokens = append(tokens, Token{tokenType, value})
+
+			if hasLeftParentheses(value) {
+				tokens = append(tokens, Token{RIGHT_PARENTHESES_TOEKN, ")"})
+			}
 		}
 		tokenList = append(tokenList, tokens)
 	}
