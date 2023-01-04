@@ -157,7 +157,7 @@ func Lexer(source string) [][]Token {
 
 			tokens = append(tokens, Token{tokenType, value})
 
-			if hasLeftParentheses(value) {
+			if hasRightParentheses(value) {
 				tokens = append(tokens, Token{RIGHT_PARENTHESES_TOEKN, ")"})
 			}
 		}
