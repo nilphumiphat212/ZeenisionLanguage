@@ -5,6 +5,7 @@ type TokenValue interface{}
 
 const (
 	UNKNOWN_TOKEN TokenType = iota
+	EOF_TOKEN
 	STRING_TOKEN
 	NUMBER_TOKEN
 	BOOL_TOKEN
