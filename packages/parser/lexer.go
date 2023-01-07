@@ -23,12 +23,42 @@ func (lexer *Lexer) readChar() {
 	lexer.readPosition++
 }
 
+func (lexer *Lexer) NextToken() Token {
+	lexer.skipWhitespace()
+
+	return newToken(UNKNOWN_TOKEN, nil)
+}
+
+func (lexer *Lexer) skipWhitespace() {
+	for lexer.ch == ' ' || lexer.ch == '\t' || lexer.ch == '\r' || lexer.ch == '\n' {
+		lexer.readChar()
+	}
+}
+
 //lint:ignore U1000 use in comming soon.
 func newToken(tokenType TokenType, tokenValue TokenValue) Token {
 	return Token{tokenType, tokenValue}
 }
 
-//export for debug
+//lint:ignore U1000 use in comming soon.
+func (lexer *Lexer) readIdentifier() string {
+	position := lexer.position
+	for isLetter(lexer.ch) {
+		lexer.readChar()
+	}
+	return lexer.source[position:lexer.position]
+}
+
+//lint:ignore U1000 use in comming soon.
+func (lexer *Lexer) readNumber() string {
+	position := lexer.position
+	for isDigit(lexer.ch) {
+		lexer.readChar()
+	}
+	return lexer.source[position:lexer.position]
+}
+
+//export for debugfor
 func IsLetter(ch byte) bool {
 	return isLetter(ch)
 }
@@ -38,9 +68,9 @@ func IsDigit(ch byte) bool {
 }
 
 func isLetter(ch byte) bool {
-	return ('a' <= ch && 'z' <= ch) || ('A' <= ch && 'Z' <= ch || ch == '_')
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
 func isDigit(ch byte) bool {
-	return '0' <= ch && '9' <= ch
+	return '0' <= ch && ch <= '9'
 }
