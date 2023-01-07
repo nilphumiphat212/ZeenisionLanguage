@@ -67,6 +67,8 @@ func IsDigit(ch byte) bool {
 	return isDigit(ch)
 }
 
+//end export
+
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
